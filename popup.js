@@ -48,7 +48,7 @@ function AutohideCommentsApply() {
 
         window.AutohideCommentsSpells.forEach(function (word) {
             $(".fw_reply, .reply").each(function (index, element) {
-                var $el = $(element).find(".fw_reply_text, .wall_reply_text");
+                var $el = $(element).find(".fw_reply_text, .wall_reply_text, .reply_text");
 
                 if ($(element).has(".audio").length > 0 && window.AutohideCommentsWithAudio)
                     $(element).addClass("script-hidden");

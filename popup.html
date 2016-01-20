@@ -55,11 +55,18 @@
         display: none;
     }
     .script-hidden{
+        padding: 1em;
+    }
+    .script-hidden *{
         display: none;
     }
+    .script-hidden::after{
+        content: "Скрыто";
+    }
     .comment-autohide{
-        height: 150px;
+        height: 5em;
         width: 100%;
+        max-width: 100%;
     }
     .vkscript-ui-hint{
         color: red;
