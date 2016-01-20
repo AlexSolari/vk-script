@@ -1,0 +1,98 @@
+﻿<style>
+    #vkscript-wrapper {
+        color: white;
+        position: fixed;
+        background: black;
+        bottom: 0;
+        right: 64px;
+        height: 32px;
+    }
+    #vkscript-wrapper h4{
+        color: white;
+    }
+    #vkscript-wrapper div{
+        padding: 1em;
+    }
+    #vkscript-wrapper a{
+        color: #87E1FF;
+    }
+    #vkscript-toolbar{
+        margin: 0;
+        padding: 0;
+        list-style-type: none;
+        text-align: center;
+        border-top: 1px solid gray;
+    }
+    #vkscript-toolbar li { 
+        display: inline-block; 
+        min-width: 20px;
+        min-height: 20px;
+        margin: 10px;
+    }
+    #vkscript-toolbar li:not(:last-child){
+      margin-right: 0;
+    }
+    #vkscript-toolbar li a{
+        color: white;
+    }
+    .vkscript-panel{
+        position: fixed;
+        background: black;
+        bottom: 32px;
+        right: 64px;
+        max-width: 300px;
+    }
+    #vkscript-autohide .row{
+        padding: 0;
+        margin-bottom: .5em;
+    }
+    #vkscript-autohide .row label{
+        position: relative;
+        top: -3px;
+    }
+    .hidden{
+        display: none;
+    }
+    .script-hidden{
+        display: none;
+    }
+    .comment-autohide{
+        height: 150px;
+        width: 100%;
+    }
+    .vkscript-ui-hint{
+        color: red;
+    }
+</style>
+<div id="vkscript-autohide" class="hidden vkscript-panel">
+    <h4>Комментарии</h4>
+    <p>
+        Через запятую перечислите слова, комментарии с которыми будут скрываться.
+    </p>
+    <p class="vkscript-ui-hint">
+        Фильтр игнорирует регистр.
+    </p>
+    <div class="row">
+        <label for="image-filter">Скрывать комментарии с картинками: </label>
+        <input type="checkbox" name="image-filter" value="false" />
+    </div>
+    <div class="row">
+        <label for="audio-filter">Скрывать комментарии с аудиозаписями: </label>
+        <input type="checkbox" name="audio-filter" value="false" />
+    </div>
+    <textarea class="comment-autohide"></textarea><br />
+    <input type="button" id="comment-autohide-apply" value="Применить" />
+</div>
+<div id="vkscript-about" class="hidden vkscript-panel">
+    <h4>Об авторе</h4>
+    <p>
+        Vk-Script запилен Чизом просто потому что. Об ошибках писать <a href="https://github.com/AlexSolari/vk-script/issues/new" target="_blank">сюда</a>.
+    </p>
+    <p>
+        Ссылочка на <a href="https://github.com/AlexSolari/vk-script" target="_blank">Гитхаб</a>
+    </p>
+</div>
+<ul id="vkscript-toolbar">
+    <li><a class="autohide-button">Автоскрытие</a></li>
+    <li><a class="about-button">Об авторе</a></li>
+</ul>
