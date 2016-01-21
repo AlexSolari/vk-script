@@ -16,7 +16,8 @@ Doing some profit for VK
   <li>Переходим на chrome://extensions/</li>
   <li>Перетаскиваем скачанный файлик в список</li>
   <li>Подтверджаем</li>
-  <li>Подтверджаем</li>
+  <li>???</li>
+  <li><strong>PROFIT</strong></li>
 </ul>
 
 <hr>
