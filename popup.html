@@ -11,7 +11,7 @@
     #vkscript-wrapper h4{
         color: white;
     }
-    #vkscript-wrapper div{
+    #vkscript-wrapper > div{
         padding: 1em;
     }
     #vkscript-wrapper a{
@@ -43,11 +43,11 @@
         right: 64px;
         max-width: 300px;
     }
-    #vkscript-comments .row{
+    .row{
         padding: 0;
         margin-bottom: .5em;
     }
-    #vkscript-comments .row label{
+    .row label{
         position: relative;
         top: -3px;
     }
@@ -63,7 +63,7 @@
     .script-hidden::after{
         content: "Скрыто";
     }
-    .comment-autohide{
+    textarea{
         height: 5em;
         width: 100%;
         max-width: 100%;
@@ -79,6 +79,32 @@
     }
     .vkscript-find-iqdb::after{
         content:"Найти картинку на IQDB";
+    }
+    .add_bookmark{
+        margin-left: 1em;
+    }
+    .add_bookmark::after{
+        content: "Добавить закладку";
+    }
+    .bookmarked::after{
+        content: "Добавлено!";
+    }
+    .bookmarks-list-wrapper{
+        max-height: 500px;
+        overflow-y: scroll;
+        min-height: 100px;
+        min-width: 200px;
+    }
+    #saved-bookmarks{
+        padding-left: 1em;
+    }
+    #saved-bookmarks li{
+        border-top: 1px dashed gray;
+    }
+    .delete-bookmark::after{
+        color: red;
+        content: "X";
+        float: right;
     }
 </style>
 <div id="vkscript-comments" class="hidden vkscript-panel">
@@ -109,7 +135,41 @@
         Ссылочка на <a href="https://github.com/AlexSolari/vk-script" target="_blank">Гитхаб</a>
     </p>
 </div>
+<div id="vkscript-diff" class="hidden vkscript-panel">
+    <h4>Разное</h4>
+    <div class="row">
+        <label for="emodji-filter">Скрывать емодзи: </label>
+        <input type="checkbox" name="emodji-filter" value="false" />
+    </div>
+
+    <input type="button" id="diff-apply" value="Применить" />
+</div>
+<div id="vkscript-posts" class="hidden vkscript-panel">
+    <h4>Посты</h4>
+    <p>
+        Через запятую перечислите слова, посты с которыми будут скрываться.
+    </p>
+    <p class="vkscript-ui-hint">
+        Фильтр игнорирует регистр.
+    </p>
+    <div class="row">
+        <label for="repost-filter">Скрывать репосты: </label>
+        <input type="checkbox" name="repost-filter" value="false" />
+    </div>
+    <textarea class="post-autohide"></textarea><br />
+    <input type="button" id="post-autohide-apply" value="Применить" />
+</div>
+<div id="vkscript-bookmarks" class="hidden vkscript-panel">
+    <h4>Закладки</h4>
+    <div class="bookmarks-list-wrapper">
+        <ul id="saved-bookmarks"></ul>
+    </div>
+    <input type="button" id="delete-all-bookmarks" value="Удалить все" />
+</div>
 <ul id="vkscript-toolbar">
+    <li><a class="posts-button">Посты</a></li>
     <li><a class="autohide-button">Комментарии</a></li>
+    <li><a class="bookmarks-button">Закладки</a></li>
+    <li><a class="diff-button">Разное</a></li>
     <li><a class="about-button">Об авторе</a></li>
 </ul>
