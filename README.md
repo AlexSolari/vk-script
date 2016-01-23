@@ -7,6 +7,10 @@ Doing some profit for VK
   <li>Скрывать комменты с картинками</li>
   <li>Скрывать комменты с аудиозаписями</li>
   <li>Искать картинку на популярных поисковиках</li>
+  <li>Скрывать посты по списку слов</li>
+  <li>Скрывать репосты</li>
+  <li>Убирать эмодзи</li>
+  <li>Закладки-закладочки</li>
 </ul>
 <hr>
 Устанавливать отсюда: https://chrome.google.com/webstore/detail/vk-script/bnlifabdcfihabpmnfmkeffcmidoblbj
@@ -14,7 +18,7 @@ Doing some profit for VK
 Запасной вариант:
 <ul>
   <li>Качаем отсюда: https://www.dropbox.com/s/ig8dzps57pmux5c/vk-script.crx?dl=0</li>
-  <li>Переходим на chrome://extensions/</li>
+  <li>Переходим на <a href="chrome://extensions/">chrome://extensions/</a></li>
   <li>Перетаскиваем скачанный файлик в список</li>
   <li>Подтверджаем</li>
   <li>???</li>
