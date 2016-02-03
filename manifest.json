@@ -1,11 +1,11 @@
 {
     "manifest_version": 2,
     "name": "VK-Script",
-    "version": "0.0.3",
+    "version": "0.0.4",
     "description": "Doing some profit for vk",
     "content_scripts": [
         {
-            "matches": [ "http://vk.com/*" ],
+            "matches": [ "http://vk.com/*","https://vk.com/*" ],
             "js": [ "jquery.min.js", "popup.js" ]
         }
     ],
