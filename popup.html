@@ -5,7 +5,7 @@
         position: fixed;
         background: black;
         bottom: 0;
-        right: 64px;
+        left: 0;
         height: 32px;
     }
     #vkscript-wrapper h4{
@@ -40,7 +40,7 @@
         position: fixed;
         background: black;
         bottom: 32px;
-        right: 64px;
+        left: 0;
         max-width: 300px;
     }
     .row{
@@ -51,8 +51,13 @@
         position: relative;
         top: -3px;
     }
+    .im_in.hidden{
+        height: 0px !important;
+        position: absolute !important;
+        top: 0;
+    }
     .hidden{
-        display: none;
+        display: none !important;
     }
     .emoji.hidden, .emoji_css.hidden{
         display: inline-block;

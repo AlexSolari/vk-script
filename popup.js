@@ -41,7 +41,7 @@ Settings.prototype.Load = function () {
 
     $("input[name='emodji-filter']")[0].checked = JSON.parse(window.localStorage["vkscript-emodji-filter"]);
 
-    this.Bookmarks = JSON.parse(window.localStorage["vkscript-bookmarks"]) || [];
+    this.Bookmarks = JSON.parse(window.localStorage["vkscript-bookmarks"] || "[]");
 }
 
 Settings.prototype.SavePosts = function () {
@@ -114,7 +114,7 @@ Settings.prototype.SaveBookmarks = function () {
 var config;
 var currentImage;
 
-$(document).ready(function () {
+$(window).load(function () {
     var wrapper = $('<div id="vkscript-wrapper"></div>');
     $('body').append(wrapper);
     $('#vkscript-wrapper').load(chrome.extension.getURL("popup.html"), function () {
@@ -211,44 +211,58 @@ function ProcessImages() {
 }
 
 function ProcessComments() {
-    config.AutohideCommentsSpells.forEach(function (word) {
-        $(".fw_reply, .reply").each(function (index, element) {
-            var $el = $(element).find(".fw_reply_text, .wall_reply_text, .reply_text");
+    $(".fw_reply, .reply").each(function (index, element) {
+        var $el = $(element).find(".fw_reply_text, .wall_reply_text, .reply_text");
 
-            if ($(element).has(".audio").length > 0 && config.AutohideCommentsWithAudio)
-                $(element).addClass("script-hidden");
-            else if ($(element).has(".page_post_thumb_sized_photo").length > 0 && config.AutohideCommentsWithImages)
-                $(element).addClass("script-hidden");
-            else if ($el.length > 0 && $el.text().toLowerCase().indexOf(word) > -1 && word.length > 0)
-                $(element).addClass("script-hidden");
-        });
-
+        if ($(element).has(".audio").length > 0 && config.AutohideCommentsWithAudio)
+            $(element).addClass("script-hidden");
+        else if ($(element).has(".page_post_thumb_sized_photo").length > 0 && config.AutohideCommentsWithImages)
+            $(element).addClass("script-hidden");
+        else 
+            config.AutohideCommentsSpells.forEach(function (word) {
+                if ($el.length > 0 && $el.text().toLowerCase().indexOf(word) > -1 && word.length > 0)
+                    $(element).addClass("script-hidden");
+            });
     });
+    
 
 }
 
 function ProcessDiff() {
+    var $m = $(".im_in:has(.emoji, .emoji_css)");
     var $emoji = $(".emoji, .emoji_css");
     if (config.HideEmodzi) {
+        $(".emoji_smile").addClass("hidden");
+        $m.each(function (index, element) {
+            var $el = $(element);
+            var textDom = $el.find(".im_msg_text");
+            if (textDom.length > 0 && textDom.text().length == 0)
+            {
+                $el.addClass("hidden");
+            }
+        })
         $emoji.addClass("hidden");
     }
     else {
+        $(".emoji_smile").removeClass("hidden");
+        $m.removeClass("hidden");
         $emoji.removeClass("hidden");
     }
 }
 
 function ProcessPosts() {
-    config.AutohidePostsSpells.forEach(function (word) {
-        $(".post").each(function (index, element) {
-            var $el = $(element).find(".wall_post_text");
+    $(".post").each(function (index, element) {
+        var $el = $(element).find(".wall_post_text");
 
-            if (config.AutohideReposts && $(element).find(".published_by_wrap").length > 0)
-                $(element).addClass("hidden");
-            else if ($el.length > 0 && $el.text().toLowerCase().indexOf(word) > -1 && word.length > 0)
-                $(element).addClass("hidden");
-        });
-
+        if (config.AutohideReposts && $(element).find(".published_by_wrap").length > 0)
+            $(element).addClass("hidden");
+        else
+            config.AutohidePostsSpells.forEach(function (word) {
+                if ($el.length > 0 && $el.text().toLowerCase().indexOf(word) > -1 && word.length > 0)
+                    $(element).addClass("hidden");
+            });
     });
+    
 }
 
 function ProcessBookmarks() {
