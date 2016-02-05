@@ -229,14 +229,15 @@ function ProcessComments() {
 }
 
 function ProcessDiff() {
-    var $m = $(".im_in:has(.emoji, .emoji_css)");
+    var $m = $(".im_in:has(.emoji, .emoji_css), .im_out:has(.emoji, .emoji_css)");
     var $emoji = $(".emoji, .emoji_css");
     if (config.HideEmodzi) {
         $(".emoji_smile").addClass("hidden");
         $m.each(function (index, element) {
             var $el = $(element);
             var textDom = $el.find(".im_msg_text");
-            if (textDom.length > 0 && textDom.text().length == 0)
+            var attachments = $el.find(".wall_module");
+            if (textDom.length > 0 && textDom.text().length == 0 && attachments.length == 0)
             {
                 $el.addClass("hidden");
             }
