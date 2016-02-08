@@ -31,17 +31,28 @@ function Settings() {
 }
 
 Settings.prototype.Load = function () {
+    console.log("Loading settings:");
+
+    console.log("- Comments blacklist");
     $(".comment-autohide")[0].value = window.localStorage["vkscript-comments-spells"] || "";
 
+    console.log("- Posts blacklist");
     $(".post-autohide")[0].value = window.localStorage["vkscript-posts-spells"] || "";
-    $("input[name='repost-filter']")[0].checked = JSON.parse(window.localStorage["vkscript-repostshide"]);
+    console.log("- Repost hiding option");
+    $("input[name='repost-filter']")[0].checked = JSON.parse(window.localStorage["vkscript-repostshide"] || "false");
 
-    $("input[name='image-filter']")[0].checked = JSON.parse(window.localStorage["vkscript-comments-imageshide"]);
-    $("input[name='audio-filter']")[0].checked = JSON.parse(window.localStorage["vkscript-comments-audioshide"]);
+    console.log("- Comments with images hiding option");
+    $("input[name='image-filter']")[0].checked = JSON.parse(window.localStorage["vkscript-comments-imageshide"] || "false");
+    console.log("- Comments with audio hiding option");
+    $("input[name='audio-filter']")[0].checked = JSON.parse(window.localStorage["vkscript-comments-audioshide"] || "false");
 
-    $("input[name='emodji-filter']")[0].checked = JSON.parse(window.localStorage["vkscript-emodji-filter"]);
+    console.log("- Emoji hiding option");
+    $("input[name='emodji-filter']")[0].checked = JSON.parse(window.localStorage["vkscript-emodji-filter"] || "false");
 
+    console.log("- Bookmarks");
     this.Bookmarks = JSON.parse(window.localStorage["vkscript-bookmarks"] || "[]");
+
+    console.log("Settings loading completed.");
 }
 
 Settings.prototype.SavePosts = function () {
