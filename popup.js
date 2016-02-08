@@ -26,6 +26,7 @@ function Settings() {
     this.AutohideReposts = false;
 
     this.HideEmodzi = false;
+    this.SpoilPict = false;
 
     this.Interval = 0;
 }
@@ -48,6 +49,8 @@ Settings.prototype.Load = function () {
 
     console.log("- Emoji hiding option");
     $("input[name='emodji-filter']")[0].checked = JSON.parse(window.localStorage["vkscript-emodji-filter"] || "false");
+    console.log("- Pic spoil option");
+    $("input[name='pic-spoil']")[0].checked = JSON.parse(window.localStorage["vkscript-pic-spoil"] || "false");
 
     console.log("- Bookmarks");
     this.Bookmarks = JSON.parse(window.localStorage["vkscript-bookmarks"] || "[]");
@@ -89,7 +92,9 @@ Settings.prototype.SaveComments = function () {
 
 Settings.prototype.SaveDiff = function () {
     window.localStorage["vkscript-emodji-filter"] = $("input[name='emodji-filter']")[0].checked;
+    window.localStorage["vkscript-pic-spoil"] = $("input[name='pic-spoil']")[0].checked;
 
+    this.SpoilPict = $("input[name='pic-spoil']")[0].checked
     this.HideEmodzi = $("input[name='emodji-filter']")[0].checked;
 }
 
@@ -129,6 +134,7 @@ $(window).load(function () {
     var wrapper = $('<div id="vkscript-wrapper"></div>');
     $('body').append(wrapper);
     $('#vkscript-wrapper').load(chrome.extension.getURL("popup.html"), function () {
+        $('#vkscript-comments .style-container').load(chrome.extension.getURL("style.css"));
         config = new Settings();
 
         $(".autohide-button").click(function () {
@@ -240,14 +246,15 @@ function ProcessComments() {
 }
 
 function ProcessDiff() {
-    var $m = $(".im_in:has(.emoji, .emoji_css)");
+    var $m = $(".im_in:has(.emoji, .emoji_css), .im_out:has(.emoji, .emoji_css)");
     var $emoji = $(".emoji, .emoji_css");
     if (config.HideEmodzi) {
         $(".emoji_smile").addClass("hidden");
         $m.each(function (index, element) {
             var $el = $(element);
             var textDom = $el.find(".im_msg_text");
-            if (textDom.length > 0 && textDom.text().length == 0)
+            var attachments = $el.find(".wall_module");
+            if (textDom.length > 0 && textDom.text().length == 0 && attachments.length == 0)
             {
                 $el.addClass("hidden");
             }
@@ -258,6 +265,13 @@ function ProcessDiff() {
         $(".emoji_smile").removeClass("hidden");
         $m.removeClass("hidden");
         $emoji.removeClass("hidden");
+    }
+
+    if (config.SpoilPict) {
+        $(".page_post_thumb_sized_photo, #pv_photo, .page_media_link_thumb, .page_media_link_img").addClass("picture-spoiled");
+    }
+    else {
+        $(".page_post_thumb_sized_photo, #pv_photo, .page_media_link_thumb, .page_media_link_img").removeClass("picture-spoiled");
     }
 }
 
@@ -280,7 +294,7 @@ function ProcessBookmarks() {
     $(".post").each(function (index, element) {
         if ($(element).find(".add_bookmark").length == 0) {
             var $el = $(element).find(".wall_text_name");
-            var url = "http://vk.com/" + $(element).prop("id").replace("post", "wall");
+            var url = document.location.protocol + "//vk.com/" + $(element).prop("id").replace("post", "wall");
             
 
             var attemptToFindReplica = config.Bookmarks.find(function (x) {

@@ -1,0 +1,23 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A59FF004-4FAC-4661-9E49-0AAD175A07D6}"
+	ProjectSection(SolutionItems) = preProject
+		icon.png = icon.png
+		jquery.min.js = jquery.min.js
+		key.pem = key.pem
+		LICENSE = LICENSE
+		manifest.json = manifest.json
+		popup.html = popup.html
+		popup.js = popup.js
+		README.md = README.md
+		style.css = style.css
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

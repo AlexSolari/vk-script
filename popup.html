@@ -1,122 +1,5 @@
-﻿<style>
-    #vkscript-wrapper {
-        z-index: 40000;
-        color: white;
-        position: fixed;
-        background: black;
-        bottom: 0;
-        left: 0;
-        height: 32px;
-    }
-    #vkscript-wrapper h4{
-        color: white;
-    }
-    #vkscript-wrapper > div{
-        padding: 1em;
-    }
-    #vkscript-wrapper a{
-        color: #87E1FF;
-    }
-    #vkscript-toolbar{
-        margin: 0;
-        padding: 0;
-        list-style-type: none;
-        text-align: center;
-        border-top: 1px solid gray;
-    }
-    #vkscript-toolbar li { 
-        display: inline-block; 
-        min-width: 20px;
-        min-height: 20px;
-        margin: 10px;
-    }
-    #vkscript-toolbar li:not(:last-child){
-      margin-right: 0;
-    }
-    #vkscript-toolbar li a{
-        color: white;
-    }
-    .vkscript-panel{
-        position: fixed;
-        background: black;
-        bottom: 32px;
-        left: 0;
-        max-width: 300px;
-    }
-    .row{
-        padding: 0;
-        margin-bottom: .5em;
-    }
-    .row label{
-        position: relative;
-        top: -3px;
-    }
-    .im_in.hidden{
-        height: 0px !important;
-        position: absolute !important;
-        top: 0;
-    }
-    .hidden{
-        display: none !important;
-    }
-    .emoji.hidden, .emoji_css.hidden{
-        display: inline-block;
-        opacity: 0;
-    }
-    .script-hidden{
-        padding: 1em;
-    }
-    .script-hidden *{
-        display: none;
-    }
-    .script-hidden::after{
-        content: "Скрыто";
-    }
-    textarea{
-        height: 5em;
-        width: 100%;
-        max-width: 100%;
-    }
-    .vkscript-ui-hint{
-        color: red;
-    }
-    .vkscript-find-yandex::after{
-        content:"Найти картинку на Яндексе";
-    }
-    .vkscript-find-google::after{
-        content:"Найти картинку на Google";
-    }
-    .vkscript-find-iqdb::after{
-        content:"Найти картинку на IQDB";
-    }
-    .add_bookmark{
-        margin-left: 1em;
-    }
-    .add_bookmark::after{
-        content: "Добавить закладку";
-    }
-    .bookmarked::after{
-        content: "Добавлено!";
-    }
-    .bookmarks-list-wrapper{
-        max-height: 500px;
-        overflow-y: scroll;
-        min-height: 100px;
-        min-width: 200px;
-    }
-    #saved-bookmarks{
-        padding-left: 1em;
-    }
-    #saved-bookmarks li{
-        border-top: 1px dashed gray;
-    }
-    .delete-bookmark::after{
-        color: red;
-        content: "X";
-        float: right;
-    }
-</style>
-<div id="vkscript-comments" class="hidden vkscript-panel">
+﻿<div id="vkscript-comments" class="hidden vkscript-panel">
+    <style class="style-container"></style>
     <h4>Комментарии</h4>
     <p>
         Через запятую перечислите слова, комментарии с которыми будут скрываться.
@@ -150,7 +33,10 @@
         <label for="emodji-filter">Скрывать емодзи: </label>
         <input type="checkbox" name="emodji-filter" value="false" />
     </div>
-
+    <div class="row">
+        <label for="pic-spoil">Скрывать под спойлер картинки: </label>
+        <input type="checkbox" name="pic-spoil" value="false" />
+    </div>
     <input type="button" id="diff-apply" value="Применить" />
 </div>
 <div id="vkscript-posts" class="hidden vkscript-panel">
