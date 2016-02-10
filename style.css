@@ -157,3 +157,7 @@ textarea {
 .picture-spoiled:hover{
     opacity: 1;
 }
+#refresh {
+    position: relative;
+    top: .3em;
+}
