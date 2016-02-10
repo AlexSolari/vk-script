@@ -197,7 +197,7 @@ $(window).load(function () {
             config.SaveBookmarks();
         })
 
-        config.Interval = setInterval(ProcessScript, 500);
+        config.Interval = setInterval(ProcessScript, 2500);
 
         config.Load();
         config.SaveComments();
@@ -205,6 +205,7 @@ $(window).load(function () {
         config.SavePosts();
 
         RedrawBookmarks();
+        ProcessScript();
     });
 });
 
