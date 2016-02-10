@@ -27,8 +27,6 @@ function Settings() {
 
     this.HideEmodzi = false;
     this.SpoilPict = false;
-
-    this.Interval = 0;
 }
 
 Settings.prototype.Load = function () {
@@ -51,6 +49,9 @@ Settings.prototype.Load = function () {
     $("input[name='emodji-filter']")[0].checked = JSON.parse(window.localStorage["vkscript-emodji-filter"] || "false");
     console.log("- Pic spoil option");
     $("input[name='pic-spoil']")[0].checked = JSON.parse(window.localStorage["vkscript-pic-spoil"] || "false");
+
+    console.log("- Refresh rate");
+    $('#refresh').val(window.localStorage["vkscript-refresh-rate"] || 1500);
 
     console.log("- Bookmarks");
     this.Bookmarks = JSON.parse(window.localStorage["vkscript-bookmarks"] || "[]");
@@ -93,6 +94,7 @@ Settings.prototype.SaveComments = function () {
 Settings.prototype.SaveDiff = function () {
     window.localStorage["vkscript-emodji-filter"] = $("input[name='emodji-filter']")[0].checked;
     window.localStorage["vkscript-pic-spoil"] = $("input[name='pic-spoil']")[0].checked;
+    window.localStorage["vkscript-refresh-rate"] = $('#refresh').val();
 
     this.SpoilPict = $("input[name='pic-spoil']")[0].checked
     this.HideEmodzi = $("input[name='emodji-filter']")[0].checked;
@@ -129,11 +131,20 @@ Settings.prototype.SaveBookmarks = function () {
 
 var config;
 var currentImage;
+var isActive = true;
 
 $(window).load(function () {
     var wrapper = $('<div id="vkscript-wrapper"></div>');
     $('body').append(wrapper);
     $('#vkscript-wrapper').load(chrome.extension.getURL("popup.html"), function () {
+        window.onblur = function () {
+            isActive = false;
+        };
+
+        window.onfocus = function () {
+            isActive = true;
+        };
+
         $('#vkscript-comments .style-container').load(chrome.extension.getURL("style.css"));
         config = new Settings();
 
@@ -197,8 +208,6 @@ $(window).load(function () {
             config.SaveBookmarks();
         })
 
-        config.Interval = setInterval(ProcessScript, 2500);
-
         config.Load();
         config.SaveComments();
         config.SaveDiff();
@@ -206,15 +215,20 @@ $(window).load(function () {
 
         RedrawBookmarks();
         ProcessScript();
+        setTimeout(ProcessScript, $('#refresh').val());
     });
 });
 
 function ProcessScript() {
-    ProcessComments();
-    ProcessImages();
-    ProcessDiff();
-    ProcessPosts();
-    ProcessBookmarks();
+    if (isActive)
+    {
+        ProcessComments();
+        ProcessImages();
+        ProcessDiff();
+        ProcessPosts();
+        ProcessBookmarks();
+    }
+    setTimeout(ProcessScript, $('#refresh').val());
 }
 
 function ProcessImages() {
