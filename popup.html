@@ -38,8 +38,9 @@
         <input type="checkbox" name="pic-spoil" value="false" />
     </div>
     <div class="row">
-        <label for="refresh">Частота работы скрипта: </label>
-        <input id="refresh" name="refresh" type="range" min="500" max="5000" step="100" value="1500"/>
+        <label for="refresh">Период работы скрипта: </label>
+        <span id="refresh-rate">1500</span>
+        <input id="refresh" name="refresh" type="range" min="1000" max="5000" step="100" value="1500"/>
     </div>
     <input type="button" id="diff-apply" value="Применить" />
 </div>

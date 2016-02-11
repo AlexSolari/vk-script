@@ -52,6 +52,7 @@ Settings.prototype.Load = function () {
 
     console.log("- Refresh rate");
     $('#refresh').val(window.localStorage["vkscript-refresh-rate"] || 1500);
+    $("#refresh-rate").html($('#refresh').val());
 
     console.log("- Bookmarks");
     this.Bookmarks = JSON.parse(window.localStorage["vkscript-bookmarks"] || "[]");
@@ -206,7 +207,11 @@ $(window).load(function () {
             config.ClearBookmarks();
             RedrawBookmarks();
             config.SaveBookmarks();
-        })
+        });
+
+        $('#refresh').on("input",function () {
+            $("#refresh-rate").html($(this).val());
+        });
 
         config.Load();
         config.SaveComments();

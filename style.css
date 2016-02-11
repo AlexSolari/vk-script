@@ -160,4 +160,9 @@ textarea {
 #refresh {
     position: relative;
     top: .3em;
+    width: 120px;
+}
+span#refresh-rate {
+    position: relative;
+    top: -0.25em;
 }
