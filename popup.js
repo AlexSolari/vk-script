@@ -27,6 +27,7 @@ function Settings() {
 
     this.HideEmodzi = false;
     this.SpoilPict = false;
+    this.Corovans = 0;
 }
 
 Settings.prototype.Load = function () {
@@ -56,6 +57,9 @@ Settings.prototype.Load = function () {
 
     console.log("- Bookmarks");
     this.Bookmarks = JSON.parse(window.localStorage["vkscript-bookmarks"] || "[]");
+
+    console.log("- Corovans");
+    $('#corovans-stolen').text(JSON.parse(window.localStorage["vkscript-corovans"] || "0"));
 
     console.log("Settings loading completed.");
 }
@@ -96,7 +100,9 @@ Settings.prototype.SaveDiff = function () {
     window.localStorage["vkscript-emodji-filter"] = $("input[name='emodji-filter']")[0].checked;
     window.localStorage["vkscript-pic-spoil"] = $("input[name='pic-spoil']")[0].checked;
     window.localStorage["vkscript-refresh-rate"] = $('#refresh').val();
+    window.localStorage["vkscript-corovans"] = $('#corovans-stolen').text();
 
+    this.Corovans = JSON.parse($('#corovans-stolen').text());
     this.SpoilPict = $("input[name='pic-spoil']")[0].checked
     this.HideEmodzi = $("input[name='emodji-filter']")[0].checked;
 }
@@ -209,8 +215,14 @@ $(window).load(function () {
             config.SaveBookmarks();
         });
 
-        $('#refresh').on("input",function () {
+        $('#refresh').on("input", function () {
             $("#refresh-rate").html($(this).val());
+        });
+
+        $('#corovans').click(function () {
+            config.Corovans++;
+            $('#corovans-stolen').text(config.Corovans);
+            window.localStorage["vkscript-corovans"] = $('#corovans-stolen').text();
         });
 
         config.Load();

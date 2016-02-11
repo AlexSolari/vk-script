@@ -162,7 +162,7 @@ textarea {
     top: .3em;
     width: 120px;
 }
-span#refresh-rate {
+#refresh-rate,#corovans-stolen, #corovans {
     position: relative;
     top: -0.25em;
 }
