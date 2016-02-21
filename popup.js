@@ -1,3 +1,5 @@
+/* global chrome */
+/* global $ */
 Array.prototype.removeConditional = function (comparator) {
     var result = [];
     this.forEach(function (arg) { if (!comparator(arg)) result.push(arg) });
@@ -388,7 +390,7 @@ function ProcessBookmarks() {
 }
 
 function RedrawBookmarks() {
-    $list = $("#saved-bookmarks");
+    var $list = $("#saved-bookmarks");
     $list.html("");
 
     config.Bookmarks.forEach(function (mark) {
