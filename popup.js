@@ -8,7 +8,7 @@ String.prototype.getHash = function () {
     var arr = this.split('');
     var hash = 0;
     for (var i = 0; i < arr.length; i++) {
-        hash += arr[i].charCodeAt(0)
+        hash += arr[i].charCodeAt(0) * (i + 1);
     }
     hash = arr[0] + hash + arr[arr.length - 1];
     hash = hash + hash.length;
