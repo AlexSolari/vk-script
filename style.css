@@ -73,7 +73,7 @@
     display: none !important;
 }
 
-.emoji.hidden, .emoji_css.hidden {
+.emoji.hidden, .emoji_css.hidden, .im_gift.hidden, .sticker_img.hidden {
     display: inline-block;
     opacity: 0;
 }

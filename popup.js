@@ -26,6 +26,8 @@ function Settings() {
     this.AutohideReposts = false;
 
     this.HideEmodzi = false;
+    this.HideStickers = false;
+
     this.SpoilPict = false;
     this.Corovans = 0;
 }
@@ -48,6 +50,8 @@ Settings.prototype.Load = function () {
 
     console.log("- Emoji hiding option");
     $("input[name='emodji-filter']")[0].checked = JSON.parse(window.localStorage["vkscript-emodji-filter"] || "false");
+    console.log("- Stickers hiding option");
+    $("input[name='sticker-filter']")[0].checked = JSON.parse(window.localStorage["vkscript-sticker-filter"] || "false");
     console.log("- Pic spoil option");
     $("input[name='pic-spoil']")[0].checked = JSON.parse(window.localStorage["vkscript-pic-spoil"] || "false");
 
@@ -97,6 +101,7 @@ Settings.prototype.SaveComments = function () {
 }
 
 Settings.prototype.SaveDiff = function () {
+    window.localStorage["vkscript-sticker-filter"] = $("input[name='sticker-filter']")[0].checked;
     window.localStorage["vkscript-emodji-filter"] = $("input[name='emodji-filter']")[0].checked;
     window.localStorage["vkscript-pic-spoil"] = $("input[name='pic-spoil']")[0].checked;
     window.localStorage["vkscript-refresh-rate"] = $('#refresh').val();
@@ -104,6 +109,7 @@ Settings.prototype.SaveDiff = function () {
 
     this.Corovans = JSON.parse($('#corovans-stolen').text());
     this.SpoilPict = $("input[name='pic-spoil']")[0].checked
+    this.HideStickers = $("input[name='sticker-filter']")[0].checked;
     this.HideEmodzi = $("input[name='emodji-filter']")[0].checked;
 }
 
@@ -278,26 +284,47 @@ function ProcessComments() {
 }
 
 function ProcessDiff() {
-    var $m = $(".im_in:has(.emoji, .emoji_css), .im_out:has(.emoji, .emoji_css)");
+    var $m = $(".im_in:has(.emoji, .emoji_css, .im_gift, .sticker_img), .im_out:has(.emoji, .emoji_css, .im_gift, .sticker_img)");
     var $emoji = $(".emoji, .emoji_css");
+    var $stickers = $(".im_gift, .sticker_img");
+
     if (config.HideEmodzi) {
-        $(".emoji_smile").addClass("hidden");
         $m.each(function (index, element) {
             var $el = $(element);
             var textDom = $el.find(".im_msg_text");
             var attachments = $el.find(".wall_module");
             if (textDom.length > 0 && textDom.text().length == 0 && attachments.length == 0)
             {
+                $el.addClass("reason-emodzi");
                 $el.addClass("hidden");
             }
         })
         $emoji.addClass("hidden");
     }
     else {
-        $(".emoji_smile").removeClass("hidden");
-        $m.removeClass("hidden");
+        $(".reason-emodzi").removeClass("hidden").removeClass(".reason-emodzi");
         $emoji.removeClass("hidden");
     }
+
+    if (config.HideStickers) {
+        $m.each(function (index, element) {
+            var $el = $(element);
+            var textDom = $el.find(".im_msg_text");
+            var attachments = $el.find(".im_sticker_row");
+            if (textDom.length > 0 && textDom.text().length == 0 && attachments.length > 0) {
+                $el.addClass("hidden");
+                $el.addClass("reason-sticker");
+            }
+        })
+        $stickers.addClass("hidden");
+    }
+    else {
+        $(".reason-sticker").removeClass("hidden").removeClass(".reason-sticker");
+        $stickers.removeClass("hidden");
+    }
+
+    if (config.HideStickers && config.HideEmodzi)
+        $(".emoji_smile").addClass("hidden");
 
     if (config.SpoilPict) {
         $(".page_post_thumb_sized_photo, #pv_photo, .page_media_link_thumb, .page_media_link_img").addClass("picture-spoiled");
