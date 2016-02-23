@@ -15,134 +15,130 @@ String.prototype.getHash = function () {
     return hash;
 }
 
-function Settings() {
-    this.AutohideCommentsSpells = [];
-    this.AutohideCommentsWithImages = false;
-    this.AutohideCommentsWithAudio = false;
 
-    this.Bookmarks = [];
+var config = (function (window) {
+    function Settings() {
+        this.AutohideCommentsSpells = [];
+        this.AutohideCommentsWithImages = false;
+        this.AutohideCommentsWithAudio = false;
 
-    this.AutohidePostsSpells = [];
-    this.AutohideReposts = false;
+        this.Bookmarks = [];
 
-    this.HideEmodzi = false;
-    this.HideStickers = false;
+        this.AutohidePostsSpells = [];
+        this.AutohideReposts = false;
 
-    this.SpoilPict = false;
-    this.Corovans = 0;
-}
+        this.HideEmodzi = false;
+        this.HideStickers = false;
 
-Settings.prototype.Load = function () {
-    console.log("Loading settings:");
+        this.SpoilPict = false;
+        this.Corovans = 0;
+    }
+    Settings.prototype.Load = function () {
+        console.log("Loading settings:");
 
-    console.log("- Comments blacklist");
-    $(".comment-autohide")[0].value = window.localStorage["vkscript-comments-spells"] || "";
+        console.log("- Comments blacklist");
+        $(".comment-autohide")[0].value = window.localStorage["vkscript-comments-spells"] || "";
 
-    console.log("- Posts blacklist");
-    $(".post-autohide")[0].value = window.localStorage["vkscript-posts-spells"] || "";
-    console.log("- Repost hiding option");
-    $("input[name='repost-filter']")[0].checked = JSON.parse(window.localStorage["vkscript-repostshide"] || "false");
+        console.log("- Posts blacklist");
+        $(".post-autohide")[0].value = window.localStorage["vkscript-posts-spells"] || "";
+        console.log("- Repost hiding option");
+        $("input[name='repost-filter']")[0].checked = JSON.parse(window.localStorage["vkscript-repostshide"] || "false");
 
-    console.log("- Comments with images hiding option");
-    $("input[name='image-filter']")[0].checked = JSON.parse(window.localStorage["vkscript-comments-imageshide"] || "false");
-    console.log("- Comments with audio hiding option");
-    $("input[name='audio-filter']")[0].checked = JSON.parse(window.localStorage["vkscript-comments-audioshide"] || "false");
+        console.log("- Comments with images hiding option");
+        $("input[name='image-filter']")[0].checked = JSON.parse(window.localStorage["vkscript-comments-imageshide"] || "false");
+        console.log("- Comments with audio hiding option");
+        $("input[name='audio-filter']")[0].checked = JSON.parse(window.localStorage["vkscript-comments-audioshide"] || "false");
 
-    console.log("- Emoji hiding option");
-    $("input[name='emodji-filter']")[0].checked = JSON.parse(window.localStorage["vkscript-emodji-filter"] || "false");
-    console.log("- Stickers hiding option");
-    $("input[name='sticker-filter']")[0].checked = JSON.parse(window.localStorage["vkscript-sticker-filter"] || "false");
-    console.log("- Pic spoil option");
-    $("input[name='pic-spoil']")[0].checked = JSON.parse(window.localStorage["vkscript-pic-spoil"] || "false");
+        console.log("- Emoji hiding option");
+        $("input[name='emodji-filter']")[0].checked = JSON.parse(window.localStorage["vkscript-emodji-filter"] || "false");
+        console.log("- Stickers hiding option");
+        $("input[name='sticker-filter']")[0].checked = JSON.parse(window.localStorage["vkscript-sticker-filter"] || "false");
+        console.log("- Pic spoil option");
+        $("input[name='pic-spoil']")[0].checked = JSON.parse(window.localStorage["vkscript-pic-spoil"] || "false");
 
-    console.log("- Refresh rate");
-    $('#refresh').val(window.localStorage["vkscript-refresh-rate"] || 1500);
-    $("#refresh-rate").html($('#refresh').val());
+        console.log("- Refresh rate");
+        $('#refresh').val(window.localStorage["vkscript-refresh-rate"] || 1500);
+        $("#refresh-rate").html($('#refresh').val());
 
-    console.log("- Bookmarks");
-    this.Bookmarks = JSON.parse(window.localStorage["vkscript-bookmarks"] || "[]");
+        console.log("- Bookmarks");
+        this.Bookmarks = JSON.parse(window.localStorage["vkscript-bookmarks"] || "[]");
 
-    console.log("- Corovans");
-    $('#corovans-stolen').text(JSON.parse(window.localStorage["vkscript-corovans"] || "0"));
+        console.log("- Corovans");
+        $('#corovans-stolen').text(JSON.parse(window.localStorage["vkscript-corovans"] || "0"));
 
-    console.log("Settings loading completed.");
-}
+        console.log("Settings loading completed.");
+    }
+    Settings.prototype.SavePosts = function () {
+        window.localStorage["vkscript-posts-spells"] = $(".post-autohide")[0].value;
+        window.localStorage["vkscript-repostshide"] = $("input[name='repost-filter']")[0].checked;
 
-Settings.prototype.SavePosts = function () {
-    window.localStorage["vkscript-posts-spells"] = $(".post-autohide")[0].value;
-    window.localStorage["vkscript-repostshide"] = $("input[name='repost-filter']")[0].checked;
+        var posts_spells = $(".post-autohide")[0].value.split(",").map(function (el) {
+            return el.trim().toLowerCase();
+        });
 
-    var posts_spells = $(".post-autohide")[0].value.split(",").map(function (el) {
-        return el.trim().toLowerCase();
-    });
+        this.AutohidePostsSpells = posts_spells;
+        this.AutohideReposts = $("input[name='repost-filter']")[0].checked;
 
-    this.AutohidePostsSpells = posts_spells;
-    this.AutohideReposts = $("input[name='repost-filter']")[0].checked;
+        $(".post").removeClass("hidden");
+    }
+    Settings.prototype.SaveComments = function () {
+        window.localStorage["vkscript-comments-spells"] = $(".comment-autohide")[0].value;
 
-    $(".post").removeClass("hidden");
-}
+        window.localStorage["vkscript-comments-imageshide"] = $("input[name='image-filter']")[0].checked;
+        window.localStorage["vkscript-comments-audioshide"] = $("input[name='audio-filter']")[0].checked;
 
-Settings.prototype.SaveComments = function () {
-    window.localStorage["vkscript-comments-spells"] = $(".comment-autohide")[0].value;
+        var comments_spells = $(".comment-autohide")[0].value.split(",").map(function (el) {
+            return el.trim().toLowerCase();
+        });
 
-    window.localStorage["vkscript-comments-imageshide"] = $("input[name='image-filter']")[0].checked;
-    window.localStorage["vkscript-comments-audioshide"] = $("input[name='audio-filter']")[0].checked;
+        this.AutohideCommentsSpells = comments_spells;
 
-    var comments_spells = $(".comment-autohide")[0].value.split(",").map(function (el) {
-        return el.trim().toLowerCase();
-    });
+        this.AutohideCommentsWithImages = $("input[name='image-filter']")[0].checked;
+        this.AutohideCommentsWithAudio = $("input[name='audio-filter']")[0].checked;
 
-    this.AutohideCommentsSpells = comments_spells;
+        $(".fw_reply, .reply").removeClass("script-hidden");
+    }
+    Settings.prototype.SaveDiff = function () {
+        window.localStorage["vkscript-sticker-filter"] = $("input[name='sticker-filter']")[0].checked;
+        window.localStorage["vkscript-emodji-filter"] = $("input[name='emodji-filter']")[0].checked;
+        window.localStorage["vkscript-pic-spoil"] = $("input[name='pic-spoil']")[0].checked;
+        window.localStorage["vkscript-refresh-rate"] = $('#refresh').val();
+        window.localStorage["vkscript-corovans"] = $('#corovans-stolen').text();
 
-    this.AutohideCommentsWithImages = $("input[name='image-filter']")[0].checked;
-    this.AutohideCommentsWithAudio = $("input[name='audio-filter']")[0].checked;
+        this.Corovans = JSON.parse($('#corovans-stolen').text());
+        this.SpoilPict = $("input[name='pic-spoil']")[0].checked
+        this.HideStickers = $("input[name='sticker-filter']")[0].checked;
+        this.HideEmodzi = $("input[name='emodji-filter']")[0].checked;
+    }
+    Settings.prototype.AddBookmark = function (url, text) {
+        var copies = this.Bookmarks.find(function (x) {
+            return x.text.getHash() + x.url.getHash() == text.getHash() + url.getHash()
+        });
 
-    $(".fw_reply, .reply").removeClass("script-hidden");
-}
+        if (copies)
+            return null;
 
-Settings.prototype.SaveDiff = function () {
-    window.localStorage["vkscript-sticker-filter"] = $("input[name='sticker-filter']")[0].checked;
-    window.localStorage["vkscript-emodji-filter"] = $("input[name='emodji-filter']")[0].checked;
-    window.localStorage["vkscript-pic-spoil"] = $("input[name='pic-spoil']")[0].checked;
-    window.localStorage["vkscript-refresh-rate"] = $('#refresh').val();
-    window.localStorage["vkscript-corovans"] = $('#corovans-stolen').text();
+        var mark = { "url": url, "text": text, "id": "mark-" + ("" + Math.random()).split('.')[1] };
 
-    this.Corovans = JSON.parse($('#corovans-stolen').text());
-    this.SpoilPict = $("input[name='pic-spoil']")[0].checked
-    this.HideStickers = $("input[name='sticker-filter']")[0].checked;
-    this.HideEmodzi = $("input[name='emodji-filter']")[0].checked;
-}
+        this.Bookmarks.push(mark);
 
-Settings.prototype.AddBookmark = function (url, text) {
-    var copies = this.Bookmarks.find(function (x) {
-        return x.text.getHash() + x.url.getHash() == text.getHash() + url.getHash()
-    });
+        return mark;
+    }
+    Settings.prototype.DeleteBookmark = function (id) {
+        this.Bookmarks = this.Bookmarks.removeConditional(function (mark) {
+            return mark.id == id;
+        });
+    }
+    Settings.prototype.ClearBookmarks = function () {
+        this.Bookmarks = [];
+    }
+    Settings.prototype.SaveBookmarks = function () {
+        window.localStorage["vkscript-bookmarks"] = JSON.stringify(this.Bookmarks);
+    }
 
-    if (copies)
-        return null;
+    return new Settings();
+})(window);
 
-    var mark = { "url": url, "text": text, "id": "mark-" + ("" + Math.random()).split('.')[1] };
-
-    this.Bookmarks.push(mark);
-
-    return mark;
-}
-
-Settings.prototype.DeleteBookmark = function (id) {
-    this.Bookmarks = this.Bookmarks.removeConditional(function (mark) {
-        return mark.id == id;
-    });
-}
-
-Settings.prototype.ClearBookmarks = function () {
-    this.Bookmarks = [];
-}
-
-Settings.prototype.SaveBookmarks = function () {
-    window.localStorage["vkscript-bookmarks"] = JSON.stringify(this.Bookmarks);
-}
-
-var config;
 var currentImage;
 var isActive = true;
 
@@ -159,7 +155,6 @@ $(window).load(function () {
         };
 
         $('#vkscript-comments .style-container').load(chrome.extension.getURL("style.css"));
-        config = new Settings();
 
         $(".autohide-button").click(function () {
             $("#vkscript-about").addClass("hidden");
