@@ -17,14 +17,3 @@ Doing some profit for VK
 </ul>
 <hr>
 Устанавливать отсюда: https://chrome.google.com/webstore/detail/vk-script/bnlifabdcfihabpmnfmkeffcmidoblbj
-<br/>
-Запасной вариант:
-<ul>
-  <li>Качаем отсюда: https://www.dropbox.com/s/ig8dzps57pmux5c/vk-script.crx?dl=0</li>
-  <li>Переходим на <a href="chrome://extensions/">chrome://extensions/</a></li>
-  <li>Перетаскиваем скачанный файлик в список</li>
-  <li>Подтверджаем</li>
-  <li>???</li>
-  <li><strong>PROFIT</strong></li>
-</ul>
-
